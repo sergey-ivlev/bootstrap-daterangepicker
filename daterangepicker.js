@@ -550,6 +550,7 @@
             if (this.element.is('input'))
                 this.element.val(this.startDate.format(this.format) + this.separator + this.endDate.format(this.format));            
             this.hide();
+            this.cb(this.startDate, this.endDate);
         },
 
         clickCancel: function (e) {
@@ -561,12 +562,10 @@
         },
 
         clickClear: function (e) {            
-            this.startDate = moment('00/00/0000');
-            this.endDate = moment('00/00/0000');
             if (this.element.is('input'))
                 this.element.val('');
             this.hide();
-            this.cb(this.startDate, this.endDate);
+            this.cb(moment('00/00/0000'), moment('00/00/0000'));
         },
 
         updateYear: function (e) {
