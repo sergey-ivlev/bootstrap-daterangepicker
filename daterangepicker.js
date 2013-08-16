@@ -31,6 +31,7 @@
         this.buttonClasses = ['btn', 'btn-small'];
         this.applyClass = 'btn-success';
         this.cancelClass = 'btn-default';
+        this.clearClass = 'btn-default';
 
         this.format = 'MM/DD/YYYY';
         this.separator = ' - ';
@@ -38,13 +39,15 @@
         this.locale = {
             applyLabel: 'Apply',
             cancelLabel: 'Cancel',
+            clearLabel: 'Clear',
+
             fromLabel: 'From',
             toLabel: 'To',
             weekLabel: 'W',
             customRangeLabel: 'Custom Range',
             daysOfWeek: moment()._lang._weekdaysMin.slice(),
             monthNames: moment()._lang._monthsShort.slice(),
-            firstDay: 1
+            firstDay: 0
         };
 
         this.cb = function () { };
@@ -80,6 +83,9 @@
             if (options.cancelClass) {
                 this.cancelClass = options.cancelClass;
             }
+            if (options.clearClass) {
+                this.clearClass = options.clearClass;
+            }
         }
 
         var DRPTemplate = '<div class="daterangepicker dropdown-menu">' +
@@ -97,6 +103,7 @@
                     '</div>' +
                     '<button class="' + this.applyClass + ' applyBtn" disabled="disabled">' + this.locale.applyLabel + '</button>&nbsp;' +
                     '<button class="' + this.cancelClass + ' cancelBtn">' + this.locale.cancelLabel + '</button>' +
+                    '<button class="' + this.clearClass + ' clearBtn">' + this.locale.clearLabel + '</button>' +
                   '</div>' +
                 '</div>' +
               '</div>';
@@ -286,6 +293,7 @@
 
         this.container.find('.ranges').on('click', '.daterangepicker_start_input', $.proxy(this.showCalendar, this));
         this.container.find('.ranges').on('click', '.daterangepicker_end_input', $.proxy(this.showCalendar, this));
+        this.container.find('.ranges').on('click', 'button.clearBtn', $.proxy(this.clickClear, this));
 
         this.container.find('.calendar').on('click', 'td.available', $.proxy(this.clickDate, this));
         this.container.find('.calendar').on('mouseenter', 'td.available', $.proxy(this.enterDate, this));
@@ -551,6 +559,10 @@
             this.hide();
         },
 
+        clickClear: function (e) {
+            this.cb('0000-00-00', '0000-00-00');
+            this.hide();
+        },
         updateYear: function (e) {
             var year = parseInt($(e.target).val());
             var isLeft = $(e.target).closest('.calendar').hasClass('left');
