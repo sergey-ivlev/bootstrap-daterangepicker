@@ -31,6 +31,7 @@
         this.buttonClasses = ['btn', 'btn-small'];
         this.applyClass = 'btn-success';
         this.cancelClass = 'btn-default';
+        this.clearClass = 'btn-default';
 
         this.format = 'MM/DD/YYYY';
         this.separator = ' - ';
@@ -38,6 +39,7 @@
         this.locale = {
             applyLabel: 'Apply',
             cancelLabel: 'Cancel',
+            clearLabel: 'Clear',
             fromLabel: 'From',
             toLabel: 'To',
             weekLabel: 'W',
@@ -97,6 +99,7 @@
                     '</div>' +
                     '<button class="' + this.applyClass + ' applyBtn" disabled="disabled">' + this.locale.applyLabel + '</button>&nbsp;' +
                     '<button class="' + this.cancelClass + ' cancelBtn">' + this.locale.cancelLabel + '</button>' +
+                    '<button class="' + this.clearClass + ' clearBtn">' + this.locale.clearLabel + '</button>' +
                   '</div>' +
                 '</div>' +
               '</div>';
@@ -283,6 +286,7 @@
         this.container.find('.calendar').on('click', '.next', $.proxy(this.clickNext, this));
         this.container.find('.ranges').on('click', 'button.applyBtn', $.proxy(this.clickApply, this));
         this.container.find('.ranges').on('click', 'button.cancelBtn', $.proxy(this.clickCancel, this));
+        this.container.find('.ranges').on('click', 'button.clearBtn', $.proxy(this.clickClear, this));
 
         this.container.find('.ranges').on('click', '.daterangepicker_start_input', $.proxy(this.showCalendar, this));
         this.container.find('.ranges').on('click', '.daterangepicker_end_input', $.proxy(this.showCalendar, this));
@@ -549,6 +553,15 @@
             this.updateView();
             this.updateCalendars();
             this.hide();
+        },
+
+        clickClear: function (e) {            
+            this.startDate = moment('00/00/0000');
+            this.endDate = moment('00/00/0000');
+            if (this.element.is('input'))
+                this.element.val('');
+            this.hide();
+            this.cb(this.startDate, this.endDate);
         },
 
         updateYear: function (e) {
