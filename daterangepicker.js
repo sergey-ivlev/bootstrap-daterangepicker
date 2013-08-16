@@ -40,6 +40,7 @@
             applyLabel: 'Apply',
             cancelLabel: 'Cancel',
             clearLabel: 'Clear',
+
             fromLabel: 'From',
             toLabel: 'To',
             weekLabel: 'W',
@@ -81,6 +82,9 @@
 
             if (options.cancelClass) {
                 this.cancelClass = options.cancelClass;
+            }
+            if (options.clearClass) {
+                this.clearClass = options.clearClass;
             }
         }
 
@@ -290,6 +294,7 @@
 
         this.container.find('.ranges').on('click', '.daterangepicker_start_input', $.proxy(this.showCalendar, this));
         this.container.find('.ranges').on('click', '.daterangepicker_end_input', $.proxy(this.showCalendar, this));
+        this.container.find('.ranges').on('click', 'button.clearBtn', $.proxy(this.clickClear, this));
 
         this.container.find('.calendar').on('click', 'td.available', $.proxy(this.clickDate, this));
         this.container.find('.calendar').on('mouseenter', 'td.available', $.proxy(this.enterDate, this));
